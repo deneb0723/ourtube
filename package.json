@@ -1,0 +1,22 @@
+{
+  "name": "ourtube",
+  "version": "1.0.0",
+  "description": "nomad coders 의 6주 코드챌린지 vanilla JS, node JS, mongo DB 를 이용하여 유튜브 클론 코딩",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deneb0723/ourtube.git"
+  },
+  "author": "Deneb (byeongjoo Kim)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deneb0723/ourtube/issues"
+  },
+  "homepage": "https://github.com/deneb0723/ourtube#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
