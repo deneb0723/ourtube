@@ -22,6 +22,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(morgan("dev"));
 app.use(localMiddleware);
+app.use(function (req, res, next) {
+  res.setHeader("Content-Security-Policy", "script-src 'self' https://arghive.org");
+  return next();
+})
 
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
