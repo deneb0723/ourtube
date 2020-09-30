@@ -15,6 +15,7 @@ const app = express();
 
 app.use(helmet());
 app.set("view engine", "pug")
+app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(morgan("dev"));
 app.use(localMiddleware);
+// eslint-disable-next-line func-names
 app.use(function (req, res, next) {
   res.setHeader("Content-Security-Policy", "script-src 'self' https://arghive.org");
   return next();
