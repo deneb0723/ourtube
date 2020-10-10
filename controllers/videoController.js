@@ -90,7 +90,7 @@ export const getEditVideo = async (req, res) => {
   try {
     const video = await Video.findById(id);
     res.render("editVideo", {
-      pageTitle: `Edit ${video.title}`,
+      pageTitle: `${video.title} 수정하기`,
       video,
     });
   } catch (error) {

@@ -4,7 +4,7 @@ import User from "../models/User";
 
 export const getJoin = (req, res) => {
     res.render("join", {
-        pageTitle: "Join"
+        pageTitle: "가입하기"
     });
 };
 
@@ -38,17 +38,76 @@ export const postJoin = async (req, res, next) => {
 };
 
 
-export const getLogin = (req, res) => res.render("login");
+export const getLogin = (req, res) => res.render("login", {
+    pageTitle: "로그인"
+});
 export const postLogin = passport.authenticate("local", {
     failureRedirect: routes.login,
     successRedirect: routes.home
 })
 
-export const logout = (req, res) => {
-    // 로그아웃 처리
+export const githubLogin = passport.authenticate("github");
+
+export const githubLoginCallback = async (_, __, profile, cb) => {
+    const {
+        _json: {
+            email,
+            name,
+            id,
+            avatar_url: avatarUrl
+        }
+    } = profile;
+    try {
+        const user = await User.findOne({
+            email
+        });
+        if (user) {
+            user.githubId = id;
+            user.save();
+            return cb(null, user);
+        }
+        const newUser = await User.create({
+            email,
+            name,
+            githubId: id,
+            avatarUrl
+        });
+        return cb(null, newUser);
+    } catch (error) {
+        return cb(error);
+    }
+};
+
+export const postGithubLogin = (req, res) => {
     res.redirect(routes.home);
 };
 
-export const userDetail = (req, res) => res.render("userDetail");
+export const logout = (req, res) => {
+    req.logout();
+    res.redirect(routes.home);
+};
+
+export const getMe = (req, res) => {
+    res.render("userDetail", {
+        pageTitle: "프로필 상세보기",
+        user: req.user
+    });
+}
+export const userDetail = async (req, res) => {
+    const {
+        params: {
+            id
+        }
+    } = req;
+    try {
+        const user = await User.findById(id);
+        res.render("userDetail", {
+            pageTitle: "프로필 상세보기",
+            user
+        });
+    } catch (error) {
+        res.redirect(routes.home)
+    }
+}
 export const editProfile = (req, res) => res.render("editProfile");
 export const changePassword = (req, res) => res.render("changePassword");
