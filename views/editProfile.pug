@@ -2,12 +2,12 @@ extends layouts/main
 
 block content
     .form-container
-        form(action=`/users${routes.editProfile}`, method="post")
+        form(action=`/users${routes.editProfile}`, method="post", enctype="multipart/form-data")
             .fileUpload
                 laber(for="avatar") 아바타 파일을 선택하세요.
-                input(type="file", id="avatar", name="avatar")
-            input(text="text", placeholder="변경할 닉네임을 입력하세요", name="name")
-            input(text="email", placeholder="변경할 이메일 주소를 입력하세요", name="email")
+                input(type="file", id="avatar", name="avatar", accept="image/*")
+            input(text="text", placeholder="변경할 닉네임을 입력하세요", name="name", value=loggedUser.name)
+            input(text="email", placeholder="변경할 이메일 주소를 입력하세요", name="email", value=loggedUser.email)
             input(type="submit" value="프로필 업데이트 하기")
         a.form-container__link(href=`/users${routes.changePassword}`)
             button 비밀번호 변경하기
