@@ -100,7 +100,7 @@ export const userDetail = async (req, res) => {
         }
     } = req;
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(id).populate("videos");
         res.render("userDetail", {
             pageTitle: "프로필 상세보기",
             user
