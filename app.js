@@ -7,13 +7,16 @@ import passport from "passport";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import { localMiddleware } from "./middlewares";
+import {
+  localMiddleware
+} from "./middlewares";
 import routes from "./routes";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
 
 import "./passport";
+import apiRouter from "./routers/apiRouter";
 
 const app = express();
 
@@ -36,7 +39,9 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: true,
     saveUninitialized: false,
-    store: new CookieStore({ mongooseConnection: mongoose.connection }),
+    store: new CookieStore({
+      mongooseConnection: mongoose.connection
+    }),
   })
 );
 
@@ -56,5 +61,6 @@ app.use(function (req, res, next) {
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;
