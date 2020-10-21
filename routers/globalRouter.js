@@ -6,11 +6,13 @@ import {
   search
 } from "../controllers/videoController";
 import {
+  facebookLogin,
   getJoin,
   getLogin,
   getMe,
   githubLogin,
   logout,
+  postFacebookLogin,
   postGithubLogin,
   postJoin,
   postLogin,
@@ -38,5 +40,8 @@ globalRouter.get(routes.githubCallback, passport.authenticate("github", {
 }), postGithubLogin);
 
 globalRouter.get(routes.me, getMe);
+
+globalRouter.get(routes.facebook, facebookLogin);
+globalRouter.get(routes.facebookCallback, passport.authenticate("facebook", {failureRedirect: "/login"}), postFacebookLogin);
 
 export default globalRouter;

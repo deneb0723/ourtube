@@ -19,6 +19,10 @@
       margin-right: 10px;
       font-size: 20px;
     }
+
+    a:visited{
+      color: white;
+    }
   }
 
   .social-login--github {
@@ -27,7 +31,7 @@
   }
 
   .social-login--facebook {
-    background-color: $yellow;
-    color: $black;
+    background-color: #3498db;
+    color: white;
   }
 }

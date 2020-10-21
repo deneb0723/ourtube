@@ -1,4 +1,5 @@
 const videoContainer = document.getElementById("jsVideoPlayer");
+const videoControler = document.getElementById("jsVideoControler")
 const videoPlayer = document.querySelector("#jsVideoPlayer video");
 const playBtn = document.getElementById("jsPlayButton");
 const volumeBtn = document.getElementById("jsVolumeBtn");
@@ -6,13 +7,16 @@ const fullScrnBtn = document.getElementById("jsFullScreen");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
+const progressBar = document.getElementById("jsProgress");
+
+let timeout;
 
 const registerView = () => {
   const videoId = window.location.href.split("/videos/")[1];
   fetch(`/api/${videoId}/view`, {
     method: "POST"
   })
-}
+};
 
 function handlePlayClick() {
   if (videoPlayer.paused) {
@@ -93,6 +97,13 @@ function setTotalTime() {
   setInterval(getCurrentTime, 1000);
 };
 
+function updateProgressBar() {
+  const percent = Math.floor(
+    (100 / videoPlayer.duration) * videoPlayer.currentTime
+  );
+  progressBar.value = percent;
+};
+
 function handleEnded() {
   registerView();
   videoPlayer.currentTime = 0;
@@ -113,7 +124,15 @@ function handleDrag(event) {
   } else {
     volumeBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
   }
-}
+};
+
+function controlTimeOut(){
+  clearTimeout(timeout);
+  videoControler.style.opacity= 1;
+  timeout = setTimeout(function (){
+    videoControler.style.opacity=0;
+  }, 3000)
+};
 
 function init() {
   videoPlayer.volume = 0.5
@@ -122,6 +141,8 @@ function init() {
   fullScrnBtn.addEventListener("click", goFullScreen);
   videoPlayer.addEventListener("loadedmetadata", setTotalTime);
   videoPlayer.addEventListener("ended", handleEnded);
+  videoPlayer.addEventListener("timeupdate", updateProgressBar);
+  videoPlayer.addEventListener("mousemove", controlTimeOut)
   volumeRange.addEventListener("input", handleDrag);
 };
 
